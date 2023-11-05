@@ -5,16 +5,21 @@ import { error } from 'console';
 
 @Injectable()
 export class LabelService {
-
     constructor(private prisma : PrismaService) {}
 
     // CRUD Label
 
+    // CREATE
     async create(data: LabelDTO) {
-        await this.prisma.lABEL.create({
+        const label = await this.prisma.lABEL.create({
             data, 
         });
+
+        return label;
     }
+
+    // READ ONE
+    async
 
 
 }
