@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Post, Param, Put, Delete } from '@nestjs/common';
-import { LabelService } from './label.service';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { LabelDTO } from './label.dto';
+import { LabelService } from './label.service';
 
 @Controller('label')
 export class LabelController {
@@ -26,7 +26,7 @@ export class LabelController {
 
     // UPDATE
     @Put(":id")
-    async updateLabelText(@Param("id") id: string, text: string) {
+    async updateLabelText(@Param("id") id: string, @Body("text") text: string) {
         return this.labelService.updateLabelText(Number(id), text);
     }
 
