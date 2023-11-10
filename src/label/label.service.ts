@@ -35,7 +35,7 @@ export class LabelService {
     }
 
     // UPDATE 
-    async updateLabelText(id: number, text: string) {
+    async updateLabelText(id: number, data: LabelDTO) {
         const labelExists = await this.prisma.lABEL.findUnique({
             where: {
                 id,
@@ -48,9 +48,7 @@ export class LabelService {
             where: {
                 id,
             },
-            data: {
-                text,
-            }
+            data
         });
     }
 

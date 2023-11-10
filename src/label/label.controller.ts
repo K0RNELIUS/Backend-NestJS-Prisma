@@ -26,8 +26,8 @@ export class LabelController {
 
     // UPDATE
     @Put(":id")
-    async updateLabelText(@Param("id") id: string, @Body("text") text: string) {
-        return this.labelService.updateLabelText(Number(id), text);
+    async updateLabelText(@Param("id") id: string, @Body() data: LabelDTO) {
+        return this.labelService.updateLabelText(Number(id), data);
     }
 
     // DELETE
