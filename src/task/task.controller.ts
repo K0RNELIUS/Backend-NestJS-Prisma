@@ -21,31 +21,31 @@ export class TaskController {
     // GET ONE Route
     @Get(":id")
     async findTask(@Param("id") id: string) {
-        return this.taskService.findTask(Number(id));
+        return this.taskService.findTask(+id);
     }
 
-    // GET checked or not Tasks
-    @Get()
+    // GET checked or not Tasks 
+    @Get("checked")
     async findStatusTasks(@Body("checked") checked: boolean) {
         return this.taskService.findStatusTasks(checked);
     }
 
     // GET Tasks from label
-    @Get(":labelId")
+    @Get("label/:labelId")
     async findLabelTasks(@Param("labelId") labelId: string) {
-        return this.taskService.findLabelTasks(Number(labelId));
+        return this.taskService.findLabelTasks(+labelId);
     }
 
     // UPDATE
     @Put(":id")
     async updateTask(@Param("id") id: string, data: TaskDTO) {
-        return this.taskService.updateTask(Number(id), data);
+        return this.taskService.updateTask(+id, data);
     }
 
     // DELETE 
     @Delete(":id")
     async deleteTask(@Param("id") id: string) {
-        return this.taskService.deleteTask(Number(id));
+        return this.taskService.deleteTask(+id);
     }
 
     // DELETE checked or not Tasks

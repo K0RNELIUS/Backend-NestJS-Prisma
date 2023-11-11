@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { LabelDTO } from './label.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { createLabelDto } from './dtoLabel/createLabel.dto';
+import { updateLabelDto } from './dtoLabel/updateLabel.dto';
 
 @Injectable()
 export class LabelService {
@@ -9,9 +10,9 @@ export class LabelService {
     // CRUD Label
 
     // CREATE
-    async create(data: LabelDTO) {
+    async create(dtoCreateLabel: createLabelDto) {
         const label = await this.prisma.lABEL.create({
-            data, 
+            data: dtoCreateLabel
         });
         return label;
     }
@@ -35,7 +36,7 @@ export class LabelService {
     }
 
     // UPDATE 
-    async updateLabelText(id: number, data: LabelDTO) {
+    async updateLabelText(id: number, dtoUpdateLabel: updateLabelDto) {
         const labelExists = await this.prisma.lABEL.findUnique({
             where: {
                 id,
@@ -48,7 +49,7 @@ export class LabelService {
             where: {
                 id,
             },
-            data
+            data: dtoUpdateLabel,
         });
     }
 
