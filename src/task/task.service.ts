@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
-import { TaskDTO } from "./task.dto";
+import { createTaskDto } from './dtoTask/createTask.dto';
+import { updateTaskDto } from './dtoTask/updateTask.dto';
 
 @Injectable()
 export class TaskService {
@@ -9,11 +10,10 @@ export class TaskService {
     // CRUD Task
 
     // CREATE 
-    async create(data: TaskDTO) {
-        const task = await this.prisma.tASK.create({
-            data,
+    async create(dtoCreateTask: createTaskDto) {
+        return await this.prisma.tASK.create({
+            data: dtoCreateTask 
         });
-        return task;
     }
 
     // READ ALL 
@@ -23,15 +23,11 @@ export class TaskService {
 
     // READ ONE 
     async findTask(id: number) {
-        const taskExists = await this.prisma.tASK.findUnique({
+        return await this.prisma.tASK.findUnique({
             where: {
                 id,
             }
         });
-        if (!taskExists) {
-            throw Error("Task does not exist");
-        }
-        return taskExists;
     }
 
     // READ checked or not Tasks
@@ -45,14 +41,6 @@ export class TaskService {
 
     // READ Tasks from label
     async findLabelTasks(idLabel: number) {
-        const labelExists = await this.prisma.lABEL.findUnique({
-            where: {
-                id: idLabel,
-            },
-        });
-        if (!labelExists) {
-            throw new Error("Label does not exist");
-        }
         return this.prisma.tASK.findMany({
             where: {
                 labelId: idLabel,
@@ -61,33 +49,17 @@ export class TaskService {
     }
 
     // UPDATE
-    async updateTask(id: number, data: TaskDTO) {
-        const taskExists = await this.prisma.tASK.findUnique({
-            where: {
-                id,
-            }
-        });
-        if (!taskExists) {
-            throw Error("Task does not exist");
-        }
+    async updateTask(id: number, dtoUpdateTask: updateTaskDto) {
         return await this.prisma.tASK.update({
             where: {
                 id,
             },
-            data,
+            data: dtoUpdateTask
         });
     }
 
     // DELETE 
     async deleteTask(id: number) {
-        const taskExists = await this.prisma.tASK.findUnique({
-            where: {
-                id,
-            }
-        });
-        if (!taskExists) {
-            throw Error("Task does not exist")
-        }
         return await this.prisma.tASK.delete({
             where: {
                 id,

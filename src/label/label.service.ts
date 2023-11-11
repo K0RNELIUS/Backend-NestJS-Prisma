@@ -11,10 +11,9 @@ export class LabelService {
 
     // CREATE
     async create(dtoCreateLabel: createLabelDto) {
-        const label = await this.prisma.lABEL.create({
+        return await this.prisma.lABEL.create({
             data: dtoCreateLabel
         });
-        return label;
     }
 
     // READ ALL
@@ -24,27 +23,15 @@ export class LabelService {
 
     // READ ONE
     async findLabel(id: number) {
-        const labelExists = await this.prisma.lABEL.findUnique({
+        return await this.prisma.lABEL.findUnique({
             where: {
                 id,
             }
         });
-        if (!labelExists) {
-            throw new Error("Label does not exist");
-        } 
-        return labelExists;
     }
 
     // UPDATE 
     async updateLabelText(id: number, dtoUpdateLabel: updateLabelDto) {
-        const labelExists = await this.prisma.lABEL.findUnique({
-            where: {
-                id,
-            }
-        });
-        if (!labelExists) {
-            throw new Error("Label does not exist");
-        } 
         return await this.prisma.lABEL.update({
             where: {
                 id,
@@ -55,14 +42,6 @@ export class LabelService {
 
     // DELETE
     async deleteLabel(id: number) {
-        const labelExists = await this.prisma.lABEL.findUnique({
-            where: {
-                id,
-            }
-        });
-        if (!labelExists) {
-            throw new Error("Label does not exist");
-        } 
         return this.prisma.lABEL.delete({
             where: {
                 id,
