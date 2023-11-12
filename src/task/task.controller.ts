@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common/decorators";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common/decorators";
 import { createTaskDto } from './dtoTask/createTask.dto';
 import { updateTaskDto } from './dtoTask/updateTask.dto';
 import { TaskService } from "./task.service";
@@ -25,9 +25,21 @@ export class TaskController {
     }
 
     // GET checked or not Tasks 
-    @Get("checked")
-    async findStatusTasks(@Body("checked") checked: boolean) {
-        return await this.taskService.findStatusTasks(checked);
+    @Get("checked/:checked")
+    async findStatusTasks(@Param("checked") checked: string) {
+        let checkedBool: boolean;
+        if (checked.toLowerCase() === 'true') {
+            checkedBool = true;
+        } else if (checked.toLowerCase() === 'false') {
+            checkedBool = false;
+        } else {
+            return Error('Invalid type for route');
+        }
+        try {
+            return await this.taskService.findStatusTasks(checkedBool);
+        } catch(error) {
+            return error;
+        } 
     }
 
     // GET Tasks from label
@@ -37,20 +49,43 @@ export class TaskController {
     }
 
     // UPDATE
-    @Put(":id")
-    async updateTask(@Param("id") id: string, dtoUpdateTask: updateTaskDto) {
-        return await this.taskService.updateTask(+id, dtoUpdateTask);
+    @Patch(":id")
+    async updateTask(@Param("id") id: string, @Body() dtoUpdateTask: updateTaskDto) {
+        try {
+            return await this.taskService.updateTask(+id, dtoUpdateTask);
+        } catch(error) {
+            return error;
+        }
     }
 
     // DELETE 
     @Delete(":id")
     async deleteTask(@Param("id") id: string) {
-        return await this.taskService.deleteTask(+id);
+        try {
+            return await this.taskService.deleteTask(+id);
+        } catch(error) {
+            return error;
+        }
     }
 
     // DELETE checked or not Tasks
-    @Delete()
-    async deleteStatusTasks(checked: boolean) {
-        return await this.taskService.deleteStatusTasks(checked);
+    @Delete("checked/:checked")
+    async deleteStatusTasks(@Param("checked") checked: string) {
+        let checkedBool: boolean;
+        if (checked.toLowerCase() === 'true') {
+            checkedBool = true;
+        } else if (checked.toLowerCase() === 'false') {
+            checkedBool = false;
+        } else {
+            return Error('Invalid type for route');
+        }
+        try {
+            return await this.taskService.deleteStatusTasks(checkedBool);
+        } catch(error) {
+            return error;
+        }
     }
+
+    
+
 }

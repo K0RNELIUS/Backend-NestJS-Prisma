@@ -31,10 +31,10 @@ export class TaskService {
     }
 
     // READ checked or not Tasks
-    async findStatusTasks(checked: boolean) {
+    async findStatusTasks(checkedReceived: boolean) {
         return this.prisma.tASK.findMany({
             where: {
-                checked,
+                checked: checkedReceived,
             },
         });
     }
@@ -68,10 +68,10 @@ export class TaskService {
     }
 
     // DELETE checked or not Tasks
-    async deleteStatusTasks(checked: boolean) {
+    async deleteStatusTasks(checkedReceived: boolean) {
         return await this.prisma.tASK.deleteMany({
             where: {
-                checked,
+                checked: checkedReceived,
             },
         });
     }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { createLabelDto } from './dtoLabel/createLabel.dto';
 import { updateLabelDto } from './dtoLabel/updateLabel.dto';
 import { LabelService } from './label.service';
@@ -26,14 +26,25 @@ export class LabelController {
     }
 
     // UPDATE
-    @Put(":id")
+    @Patch(":id")
     async updateLabelText(@Param("id") id: string, @Body() dtoUpdateLabel: updateLabelDto) {
-        return await this.labelService.updateLabelText(+id, dtoUpdateLabel);
+        try {
+            return await this.labelService.updateLabelText(+id, dtoUpdateLabel);
+        } catch(error) {
+            return error;
+        }  
     }
 
     // DELETE
     @Delete(":id")
     async deleteLabel(@Param("id") id: string) {
-        return await this.labelService.deleteLabel(+id);
+        try {
+            return await this.labelService.deleteLabel(+id);
+        } catch(error) {
+            return error; 
+        }
     }
+
+
+    
 }
